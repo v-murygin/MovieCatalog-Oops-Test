@@ -38,6 +38,7 @@
 		210947DE2A981517006238E5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 210947DC2A981517006238E5 /* LaunchScreen.storyboard */; };
 		21C96A8F2A995E7D00721EA8 /* RealmService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21C96A8E2A995E7D00721EA8 /* RealmService.swift */; };
 		21C96A922A9970B700721EA8 /* MovieCardCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21C96A912A9970B700721EA8 /* MovieCardCellModel.swift */; };
+		21C96A942A9A93B000721EA8 /* ActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21C96A932A9A93B000721EA8 /* ActivityViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -72,6 +73,7 @@
 		210947DF2A981517006238E5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		21C96A8E2A995E7D00721EA8 /* RealmService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmService.swift; sourceTree = "<group>"; };
 		21C96A912A9970B700721EA8 /* MovieCardCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCardCellModel.swift; sourceTree = "<group>"; };
+		21C96A932A9A93B000721EA8 /* ActivityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -298,6 +300,7 @@
 			isa = PBXGroup;
 			children = (
 				210642422A99493E00EC2FA5 /* GlassText.swift */,
+				21C96A932A9A93B000721EA8 /* ActivityViewController.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -436,6 +439,7 @@
 				2106423E2A99426400EC2FA5 /* MovieCardCell.swift in Sources */,
 				210642352A993EDC00EC2FA5 /* TMDBLogoResponseNetworkModel.swift in Sources */,
 				2106422B2A992F4E00EC2FA5 /* NetworkService.swift in Sources */,
+				21C96A942A9A93B000721EA8 /* ActivityViewController.swift in Sources */,
 				210947D22A981516006238E5 /* AppDelegate.swift in Sources */,
 				210642232A9904C400EC2FA5 /* DescriptionViewModel.swift in Sources */,
 				210642142A98264400EC2FA5 /* MovieCell.swift in Sources */,

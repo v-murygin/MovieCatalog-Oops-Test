@@ -17,6 +17,9 @@ struct DescriptionViewController: View {
     
     @State private var scrollOffset = CGFloat.zero
     @State private var averageColor: Color = .gray
+    @State private var isShareSheetShowing = false
+    @State private var posterImage: UIImage? = nil
+    
     private let posterSize = CGSize(width: 268, height: 390)
     
     // MARK: -  Initialization with a movie id
@@ -38,6 +41,7 @@ struct DescriptionViewController: View {
             ZStack {
                 backgroundCreation(geometry: geometry)
                 scrollViewCreation()
+                shareButtonCreation()
             } .frame(width: geometry.size.width, height: geometry.size.height)
                 .gesture(drag)
         } .statusBar(hidden: true)
@@ -84,6 +88,7 @@ struct DescriptionViewController: View {
                             .clipped()
                             .onAppear {
                                 self.setAverageColor(image: image)
+                                self.setPosterImage(image: image)
                             }
                     case .failure(_):
                         Image(systemName: "photo")
@@ -117,6 +122,36 @@ struct DescriptionViewController: View {
         }
     }
     
+    @ViewBuilder
+    private func shareButtonCreation() -> some View {
+        VStack {
+            Spacer()
+            HStack {
+                Spacer()
+                Button(action: {
+                    self.isShareSheetShowing = true
+                }) {
+                    Image(systemName: "square.and.arrow.up")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 22, height: 28)
+                        .foregroundColor(.white)
+                        .padding()
+                }
+                .frame(width: 66, height: 66)
+                .background(Color(red: 0.37, green: 0.37, blue: 0.37).opacity(0.7))
+                .clipShape(Circle())
+                .shadow(color: Color.black.opacity(0.25), radius: 15, x: 0, y: 8)
+                .padding([.bottom, .trailing], 26)
+                .buttonStyle(PlainButtonStyle())
+            }
+        }.sheet(isPresented: $isShareSheetShowing) {
+            if let movie = viewModel.movie, let posterImage = self.posterImage, let posterUrl = movie.urlPoster  {
+                ActivityViewController(activityItems: ["Title: \(movie.title)"," Description:  \(movie.descriptionMovie)", posterUrl, posterImage], applicationActivities: nil)
+            }
+        }
+    }
+
     // MARK: - Private methods
     
     //Setting the basic color to match the color of the loaded image
@@ -125,6 +160,10 @@ struct DescriptionViewController: View {
             averageColor =  Color(imageUIColor)
         }
     }
+    
+    @MainActor private func setPosterImage(image: Image) {
+        if let image = image.getUIImage(newSize: posterSize) {
+            posterImage = image
+        }
+    }
 }
-
-
