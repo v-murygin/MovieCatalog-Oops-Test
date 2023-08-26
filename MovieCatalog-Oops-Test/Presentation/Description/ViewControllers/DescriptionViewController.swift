@@ -25,7 +25,6 @@ struct DescriptionViewController: View {
     }
     
     // MARK: - Body
-    
     var body: some View {
         //Gesture processing (swipe to go back)
         let drag = DragGesture()
@@ -106,6 +105,8 @@ struct DescriptionViewController: View {
                     ProgressView()
                 }.padding(.horizontal, 60)
                 
+// TODO: - Add movie quality if needed.
+                
                 if let description = viewModel.movie?.descriptionMovie {
                     Text(description)
                         .multilineTextAlignment(.center)
@@ -116,7 +117,7 @@ struct DescriptionViewController: View {
         }
     }
     
-    // MARK: - Private functions
+    // MARK: - Private methods
     
     //Setting the basic color to match the color of the loaded image
     @MainActor private func setAverageColor(image: Image) {

@@ -12,13 +12,17 @@ import SwiftUI
 
 
 class RealmService: ObservableObject {
+    // MARK: - Singleton
     static let shared = RealmService()
-    private let realm = try! Realm()
     
+    // MARK: - Properties
+    private let realm = try! Realm()
     var notificationToken: NotificationToken?
     @Published var movieUpdate = false
     
+    // MARK: - Initialization
     init() {
+        // Set up a notification token to observe changes in the MovieRealm objects
           notificationToken = realm.objects(MovieRealm.self).observe { [weak self] (changes: RealmCollectionChange) in
               switch changes {
               case .initial:
@@ -30,6 +34,8 @@ class RealmService: ObservableObject {
               }
           }
       }
+    
+    // MARK: - Database Operations
     
     func saveMovie(movie: Movie) {
         try! realm.write {

@@ -9,9 +9,13 @@ import UIKit
 import SwiftUI
 import Combine
 
+//Main screen of the app
 class HomeViewController: UIViewController {
+    
+    // MARK: - Typealias
     typealias DataSource = UICollectionViewDiffableDataSource<Section, MovieCellModel>
-
+    
+    // MARK: - Properties
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.minimumInteritemSpacing = 10
@@ -22,11 +26,12 @@ class HomeViewController: UIViewController {
         collectionView.showsVerticalScrollIndicator = false
         return collectionView
     }()
-        
+    
     private var dataSource: DataSource!
     private var viewModel = HomeViewModel()
     private var cancellables = Set<AnyCancellable>()
-
+    
+    // MARK: -  Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
@@ -38,7 +43,8 @@ class HomeViewController: UIViewController {
             }
             .store(in: &cancellables)
     }
-
+    
+    // MARK: -  Screen Configuration
     private func configure(){
         title = "Library"
         navigationController?.navigationBar.prefersLargeTitles = true
@@ -61,28 +67,35 @@ class HomeViewController: UIViewController {
         ])
     }
     
+    //    Configures long press on a cell
     private func addLongPressGesture() {
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongPress(_:)))
         self.collectionView.addGestureRecognizer(longPressGesture)
     }
     
+    // Configures the data source for the collection view and registers a cell for displaying movies
     private func configureDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<UICollectionViewCell, MovieCellModel> { cell, indexPath, item in
-                  cell.contentConfiguration = UIHostingConfiguration {
-                      MovieCell(id: item.id, imageUrl: item.urlPoster)
-                  }
-              }
-         dataSource = DataSource( collectionView: collectionView, cellProvider: { (collectionView, indexPath, movie) -> UICollectionViewCell? in
-             let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: movie)
-             return cell
-         })
+            
+            // Configuring cell content using SwiftUI
+            cell.contentConfiguration = UIHostingConfiguration {
+                MovieCell(id: item.id, imageUrl: item.urlPoster)
+            }
+        }
+        dataSource = DataSource( collectionView: collectionView, cellProvider: { (collectionView, indexPath, movie) -> UICollectionViewCell? in
+            let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: movie)
+            return cell
+        })
         
         var snapshot = NSDiffableDataSourceSnapshot<Section, MovieCellModel>()
         snapshot.appendSections([.library])
         snapshot.appendItems(viewModel.getMovieCellModel())
         dataSource.apply(snapshot, animatingDifferences: false)
     }
-
+    
+    // MARK: - Private methods
+    
+    // Updates the data source, loading data from Realm and applying it to the collection view.
     private func updateData() {
         viewModel.loadDataFromRealm()
         
@@ -98,9 +111,10 @@ class HomeViewController: UIViewController {
         self.present(hostingController, animated: true)
     }
     
+    // Handles a long-press gesture on a cell, prompting the user to confirm movie deletion.
     @objc private func handleLongPress(_ gesture: UILongPressGestureRecognizer) {
         if gesture.state != .ended { return }
-
+        
         let point = gesture.location(in: self.collectionView)
         if let indexPath = self.collectionView.indexPathForItem(at: point), let movie = dataSource.itemIdentifier(for: indexPath) {
             let alertController = UIAlertController(title: "Delete ''\(movie.title!)'' ?", message: nil, preferredStyle: .alert)
@@ -113,6 +127,7 @@ class HomeViewController: UIViewController {
     }
 }
 
+    // MARK: - UICollectionViewDelegate
 extension HomeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let movie = dataSource.itemIdentifier(for: indexPath) else { return }

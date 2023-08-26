@@ -7,16 +7,21 @@
 
 import Foundation
 
+//View Model for AddMovie screen
 class AddMovieViewModel: ObservableObject {
+    // MARK: - Properties
     let networkService = NetworkService()
     let realmService = RealmService.shared
-    
     @Published var movies: [MovieCardCellModel] = []
     
+    // MARK: -  Deinitialization
     deinit {
+        // Invalidate the Realm notification token to prevent memory leaks
         realmService.notificationToken?.invalidate()
     }
-
+    
+    // MARK: - Functions
+    // Fetches movie data from a network source
     func fetchData() {
         Task {
             do {
@@ -28,6 +33,7 @@ class AddMovieViewModel: ObservableObject {
                     let urlBackdrop = URL(string: baseImageURL + (movie.backdropPath ?? ""))
                     let urllogo =  try? await  NetworkService().getMoviesLogoTMDB(forMovieId: movie.id)
                     
+                    // Create a new Movie object with the fetched data
                     let newMovie = Movie(id: movie.id,
                                          title: movie.title,
                                          urlPoster: urlPoster,

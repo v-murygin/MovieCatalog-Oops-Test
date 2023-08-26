@@ -8,11 +8,13 @@
 import UIKit
 
 class ImageLoader {
-    
+    // MARK: - Properties
     static let shared = ImageLoader()
-    
     private let cache = NSCache<NSURL, UIImage>()
     
+    // MARK: - Methods
+    
+    // Downloads an image from the provided URL 
     func downloadImage(from urlString: String) async throws -> UIImage {
         guard let url = URL(string: urlString) else {
             throw ImageError.invalidURL
@@ -28,6 +30,7 @@ class ImageLoader {
         return image
     }
     
+    // Caches an image for a given URL string
     func cacheImage(_ image: UIImage, for urlString: String) {
          guard let url = URL(string: urlString) else {
              return

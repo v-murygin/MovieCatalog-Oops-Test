@@ -8,10 +8,14 @@
 import Foundation
 import SwiftUI
 
+//Screen for adding a new movie to the list
 struct AddMovieViewController: View {
+    
+    // MARK: - Properties
     @ObservedObject var viewModel =  AddMovieViewModel()
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
+    // MARK: - View Elements
     var backButton : some View {
         Button(action: {
             self.presentationMode.wrappedValue.dismiss()
@@ -32,6 +36,7 @@ struct AddMovieViewController: View {
         }
     }
     
+    // MARK: - Body
     var body: some View {
         NavigationView {
             ScrollView(.vertical, showsIndicators: false) {

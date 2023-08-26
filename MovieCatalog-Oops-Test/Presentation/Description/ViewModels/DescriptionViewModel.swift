@@ -21,7 +21,7 @@ class DescriptionViewModel: ObservableObject {
     }
 
     // MARK: - Functions
-//    Finding and getting the desired movie from the database
+    //Finding and getting the desired movie from the database
     func getDataFromRealm() {
         movie = realmService.getAllMovies().first { $0.id == id }
     }

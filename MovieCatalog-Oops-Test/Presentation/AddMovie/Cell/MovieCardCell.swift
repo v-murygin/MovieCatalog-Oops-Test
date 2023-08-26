@@ -8,11 +8,14 @@
 import Foundation
 import SwiftUI
 
+// Movie сell
 struct MovieCardCell: View {
+    // MARK: - Properties
     @State var model: MovieCardCellModel
     private let frameSize: CGSize = CGSize(width: 342, height: 172)
     var onTap: () -> Void
     
+    // MARK: - Body
     var body: some View {
         ZStack(alignment: .bottom) {
             AsyncImage(url: model.movie.urlBackdrop) { image in
@@ -31,6 +34,7 @@ struct MovieCardCell: View {
                 .frame(maxHeight: 30)
                 .padding(8)
             
+            // marks the cell as "used"
             if model.isTapped {
                 Rectangle()
                     .foregroundColor(.white.opacity(0.5))
