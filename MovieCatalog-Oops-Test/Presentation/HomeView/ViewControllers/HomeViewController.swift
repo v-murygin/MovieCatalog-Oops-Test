@@ -44,6 +44,11 @@ class HomeViewController: UIViewController {
             .store(in: &cancellables)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+    
     // MARK: -  Screen Configuration
     private func configure(){
         title = "Library"
@@ -67,7 +72,7 @@ class HomeViewController: UIViewController {
         ])
     }
     
-    //    Configures long press on a cell
+    // Configures long press on a cell
     private func addLongPressGesture() {
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongPress(_:)))
         self.collectionView.addGestureRecognizer(longPressGesture)

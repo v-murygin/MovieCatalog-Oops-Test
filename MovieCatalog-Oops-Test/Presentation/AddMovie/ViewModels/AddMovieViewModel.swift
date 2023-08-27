@@ -13,6 +13,8 @@ class AddMovieViewModel: ObservableObject {
     let networkService = NetworkService()
     let realmService = RealmService.shared
     @Published var movies: [MovieCardCellModel] = []
+    @Published var isError: Bool = false
+    @Published var errorMessage: String?
     
     // MARK: -  Deinitialization
     deinit {
@@ -48,9 +50,15 @@ class AddMovieViewModel: ObservableObject {
                     self.movies = newMovies.map { MovieCardCellModel(movie: $0, isTapped: false) }
                 }
             } catch {
-                print("Failed to get movies: \(error)")
+                self.errorMessage = "Failed to get movies: \(error)"
+                self.isError = true
             }
         }
+    }
+    
+    func resetErrorStatus() {
+        self.errorMessage = nil
+        self.isError = false
     }
     
     func addMovieData(movie: Movie) {

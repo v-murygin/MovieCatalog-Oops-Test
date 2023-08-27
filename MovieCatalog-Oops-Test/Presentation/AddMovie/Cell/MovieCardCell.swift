@@ -20,7 +20,7 @@ struct MovieCardCell: View {
         ZStack(alignment: .bottom) {
             AsyncImage(url: model.movie.urlBackdrop) { image in
                 image.resizable()
-                    .scaledToFill()
+                     .scaledToFill()
             } placeholder: {
                 ProgressView()
                     .foregroundColor(.clear)
