@@ -41,7 +41,7 @@ struct DescriptionViewController: View {
             ZStack {
                 backgroundCreation(geometry: geometry)
                 scrollViewCreation()
-                shareButtonCreation()
+                shareButtonCreation().ignoresSafeArea()
             } .frame(width: geometry.size.width, height: geometry.size.height)
                 .gesture(drag)
         } .statusBar(hidden: true)
@@ -133,18 +133,19 @@ struct DescriptionViewController: View {
                 }) {
                     Image(systemName: "square.and.arrow.up")
                         .resizable()
+                        .renderingMode(.template)
                         .scaledToFit()
                         .frame(width: 22, height: 28)
                         .foregroundColor(.white)
+                        .font(Font.system(.body).weight(.heavy))
                         .padding()
                 }
                 .frame(width: 66, height: 66)
-                .background(Color(red: 0.37, green: 0.37, blue: 0.37).opacity(0.7))
-                .clipShape(Circle())
+                .background(.thinMaterial.opacity(0.93), in: Circle())
+                .colorScheme(.dark)
                 .shadow(color: Color.black.opacity(0.25), radius: 15, x: 0, y: 8)
-                .padding([.bottom, .trailing], 26)
-                .buttonStyle(PlainButtonStyle())
-            }
+            } .padding(.bottom, 26)
+              .padding(.trailing, 27)
         }.sheet(isPresented: $isShareSheetShowing) {
             if let movie = viewModel.movie, let posterImage = self.posterImage, let posterUrl = movie.urlPoster  {
                 ActivityViewController(activityItems: ["Title: \(movie.title)"," Description:  \(movie.descriptionMovie)", posterUrl, posterImage], applicationActivities: nil)
